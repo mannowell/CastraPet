@@ -1,701 +1,258 @@
 <!DOCTYPE html>
 <html lang="pt-br">
+
 <head>
-    <meta charset="UTF-8"/>
-    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="description" content="Sistema de cadastro de animais Projeto - Castra Pet">
-    <title>CASTRA PET - Sistema de Cadastro</title>
-    
-    <!-- Bootstrap 5 -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    
-    <!-- Font Awesome 6 -->
+    <title>CastraPet - Campanha de Castração Responsável</title>
+
+    <!-- Fonts -->
+    <link
+        href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700;800&display=swap"
+        rel="stylesheet" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    
-    <!-- CSS Personalizado -->
     <link rel="stylesheet" href="./css/style.css">
-    
-    <!-- Favicon -->
-    <link rel="icon" type="image/x-icon" href="./favicon.ico">
 </head>
+
 <body>
-    <!-- Overlay de Carregamento -->
     <div id="loading-overlay" class="loading-overlay">
-        <div class="spinner-border text-light" role="status">
-            <span class="visually-hidden">Carregando...</span>
-        </div>
-        <p id="loading-text" class="mt-3">Processando...</p>
+        <div class="spinner-border text-primary" role="status"></div>
+        <p class="mt-3">Aguarde um momento...</p>
     </div>
 
-    <!-- Modal de Confirmação -->
-    <div id="confirmation-modal" class="modal-overlay">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="modal-title">Confirmação</h5>
-                <button type="button" class="btn-close" onclick="Modal.fechar()"></button>
-            </div>
-            <div class="modal-body">
-                <p id="modal-message">Tem certeza que deseja continuar?</p>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" onclick="Modal.fechar()">Cancelar</button>
-                <button type="button" class="btn btn-primary" id="modal-confirm-btn">Confirmar</button>
-            </div>
-        </div>
-    </div>
-
-    <!-- Toast Notifications -->
-    <div id="toast-container" class="toast-container"></div>
-
-    <!-- Header -->
-    <header class="app-header">
-        <nav class="navbar navbar-expand-lg navbar-dark">
-            <div class="container">
-                <a class="navbar-brand" href="#">
-                    <i class="fas fa-paw me-2"></i>
-                    <span class="brand-text">CASTRA PET</span>
-                </a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="collapse navbar-collapse" id="navbarNav">
-                    <ul class="navbar-nav ms-auto">
-                        <li class="nav-item">
-                            <button class="nav-link btn btn-link" onclick="Historico.abrir()">
-                                <i class="fas fa-history me-1"></i> Histórico
-                            </button>
-                        </li>
-                        <li class="nav-item">
-                            <button class="nav-link btn btn-link" onclick="Configuracoes.abrir()">
-                                <i class="fas fa-cog me-1"></i> Configurações
-                            </button>
-                        </li>
-                        <li class="nav-item">
-                            <a href="#" class="nav-link" onclick="Ajuda.abrir()">
-                                <i class="fas fa-question-circle me-1"></i> Ajuda
-                            </a>
-                        </li>
-                    </ul>
+    <header>
+        <div class="container header-content">
+            <a href="#" class="logo-container">
+                <!-- Mantendo a lógica de marca mas com estilo premium -->
+                <div style="display: flex; align-items: center; gap: 10px;">
+                    <i class="fas fa-paw" style="font-size: 2rem; color: var(--primary);"></i>
+                    <div class="logo-text">CastraPet <span>Campanha de Castração Responsável</span></div>
                 </div>
-            </div>
-        </nav>
+            </a>
+            <nav class="nav-links">
+                <a href="#">Início</a>
+                <a href="#cadastro" style="color: var(--primary); font-weight: 800;">Cadastro</a>
+                <a href="#">Dúvidas</a>
+                <a href="#">Contato</a>
+            </nav>
+        </div>
     </header>
 
-    <!-- Conteúdo Principal -->
-    <main class="container-fluid main-content">
-        <div class="row">
-            <!-- Sidebar -->
-            <aside class="col-lg-2 sidebar">
-                <div class="sidebar-sticky">
-                    <div class="sidebar-header">
-                        <h6><i class="fas fa-tachometer-alt me-2"></i>Navegação</h6>
+    <main class="main-wrapper">
+        <h1 class="page-title">Cadastro para Castração Gratuita</h1>
+        <span class="sub-title">Preencha os dados para inscrever seu pet na campanha.</span>
+
+        <div class="form-card" id="cadastro">
+            <!-- Decorative Pets -->
+            <img src="https://www.transparentpng.com/download/cat/cat-silhouette-png-15.png"
+                class="pet-deco pet-top-right" style="opacity: 0.2;" alt="Cat deco">
+            <img src="https://www.transparentpng.com/download/dog/dog-silhouette-png-2.png"
+                class="pet-deco pet-bottom-left" style="opacity: 0.1;" alt="Dog deco">
+
+            <form id="cadastro-form" novalidate>
+
+                <!-- 1. Dados do Tutor -->
+                <div class="form-section-title"><i class="fas fa-user"></i> 1. Dados do Tutor (Owner Info)</div>
+                <div class="form-grid">
+                    <div class="form-group span-2">
+                        <label>Nome Completo<span class="required">*</span></label>
+                        <div class="input-with-icon">
+                            <input type="text" id="tutor" placeholder="Nome Completo" required>
+                            <i class="fas fa-check-circle" style="color: #4CAF50;"></i>
+                        </div>
                     </div>
-                    <ul class="nav flex-column">
-                        <li class="nav-item">
-                            <button class="nav-link active" onclick="navegarPara('formulario')">
-                                <i class="fas fa-edit me-2"></i> Novo Cadastro
-                            </button>
-                        </li>
-                        <li class="nav-item">
-                            <button class="nav-link" onclick="navegarPara('buscar')">
-                                <i class="fas fa-search me-2"></i> Buscar
-                            </button>
-                        </li>
-                        <li class="nav-item">
-                            <button class="nav-link" onclick="navegarPara('relatorios')">
-                                <i class="fas fa-chart-bar me-2"></i> Relatórios
-                            </button>
-                        </li>
-                        <li class="nav-item">
-                            <button class="nav-link" onclick="navegarPara('exportar')">
-                                <i class="fas fa-file-export me-2"></i> Exportar
-                            </button>
-                        </li>
-                    </ul>
-                    
-                    <div class="sidebar-footer mt-4">
-                        <div class="card bg-dark">
-                            <div class="card-body p-3">
-                                <h6 class="card-title">Status</h6>
-                                <p class="card-text small" id="status-info">
-                                    <i class="fas fa-database me-1"></i>
-                                    <span id="total-cadastros">0</span> cadastros
-                                </p>
-                                <button class="btn btn-sm btn-outline-light w-100" onclick="Utils.limparCache()">
-                                    <i class="fas fa-trash-alt me-1"></i> Limpar Cache
-                                </button>
-                            </div>
+                    <div class="form-group">
+                        <label>CPF<span class="required">*</span></label>
+                        <div class="input-with-icon">
+                            <input type="text" id="cpf" class="cpf-mask" placeholder="123-4556-788X" required>
+                            <i class="fas fa-check-circle" style="color: #4CAF50;"></i>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>RG<span class="required">*</span></label>
+                        <div class="input-with-icon">
+                            <input type="text" id="rg" placeholder="RG" required>
+                            <i class="fas fa-check-circle" style="color: #4CAF50;"></i>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>E-mail<span class="required">*</span></label>
+                        <div class="input-with-icon">
+                            <input type="email" id="email" placeholder="E-mail" required>
+                            <i class="fas fa-envelope"></i>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>Telefone<span class="required">*</span></label>
+                        <div class="input-with-icon">
+                            <input type="text" id="telefone" class="phone-mask" placeholder="Telefone" required>
+                            <i class="fas fa-phone"></i>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>Celular/WhatsApp<span class="required">*</span></label>
+                        <div class="input-with-icon">
+                            <input type="text" id="celular" class="phone-mask" placeholder="91 XXX47499" required>
+                            <i class="fas fa-phone"></i>
                         </div>
                     </div>
                 </div>
-            </aside>
 
-            <!-- Conteúdo Dinâmico -->
-            <div class="col-lg-10 content-area">
-                <!-- Seção do Formulário -->
-                <section id="formulario-section" class="content-section active">
-                    <div class="section-header">
-                        <h1><i class="fas fa-paw me-2"></i>Cadastro de Animal</h1>
-                        <p class="lead">Preencha todas as informações abaixo para cadastrar um novo animal</p>
-                    </div>
-
-                    <div class="row">
-                        <!-- Progresso -->
-                        <div class="col-12 mb-4">
-                            <div class="card">
-                                <div class="card-body">
-                                    <div class="progress-steps">
-                                        <div class="step active" data-step="1">
-                                            <div class="step-circle">1</div>
-                                            <div class="step-label">Animal</div>
-                                        </div>
-                                        <div class="step" data-step="2">
-                                            <div class="step-circle">2</div>
-                                            <div class="step-label">Tutor</div>
-                                        </div>
-                                        <div class="step" data-step="3">
-                                            <div class="step-circle">3</div>
-                                            <div class="step-label">Endereço</div>
-                                        </div>
-                                        <div class="step" data-step="4">
-                                            <div class="step-circle">4</div>
-                                            <div class="step-label">Revisão</div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Formulário -->
-                        <div class="col-12">
-                            <div class="card main-form-card">
-                                <div class="card-body">
-                                    <form id="cadastro-form" novalidate>
-                                        <!-- Passo 1: Informações do Animal -->
-                                        <div class="form-step active" data-step="1">
-                                            <h3 class="step-title">
-                                                <i class="fas fa-paw me-2"></i>Informações do Animal
-                                            </h3>
-                                            
-                                            <div class="row g-3">
-                                                <div class="col-md-6">
-                                                    <label for="microchip" class="form-label">
-                                                        <i class="fas fa-microchip me-1"></i>Microchip
-                                                        <span class="text-muted small">(Opcional)</span>
-                                                    </label>
-                                                    <div class="input-group">
-                                                        <input type="text" 
-                                                               class="form-control" 
-                                                               id="microchip" 
-                                                               maxlength="15"
-                                                               placeholder="Ex: 123456789012345">
-                                                        <button class="btn btn-outline-secondary" type="button"
-                                                                onclick="Gerador.gerarMicrochip()">
-                                                            <i class="fas fa-random"></i>
-                                                        </button>
-                                                    </div>
-                                                    <div class="form-text">
-                                                        Número único de identificação do animal
-                                                    </div>
-                                                </div>
-
-                                                <div class="col-md-6">
-                                                    <label for="animal" class="form-label required">
-                                                        <i class="fas fa-dog me-1"></i>Nome do Animal
-                                                    </label>
-                                                    <input type="text" 
-                                                           class="form-control" 
-                                                           id="animal" 
-                                                           required
-                                                           placeholder="Ex: Rex, Luna, Thor">
-                                                    <div class="invalid-feedback">
-                                                        Por favor, informe o nome do animal.
-                                                    </div>
-                                                </div>
-
-                                                <div class="col-md-4">
-                                                    <label for="especie" class="form-label required">
-                                                        <i class="fas fa-crow me-1"></i>Espécie
-                                                    </label>
-                                                    <select class="form-select" id="especie" required>
-                                                        <option value="" selected disabled>Selecione...</option>
-                                                        <option value="CÃO">Cão</option>
-                                                        <option value="GATO">Gato</option>
-                                                        <option value="OUTRO">Outro</option>
-                                                    </select>
-                                                    <div class="invalid-feedback">
-                                                        Selecione a espécie do animal.
-                                                    </div>
-                                                </div>
-
-                                                <div class="col-md-4">
-                                                    <label for="sexo" class="form-label required">
-                                                        <i class="fas fa-venus-mars me-1"></i>Sexo
-                                                    </label>
-                                                    <select class="form-select" id="sexo" required>
-                                                        <option value="" selected disabled>Selecione...</option>
-                                                        <option value="MACHO">Macho</option>
-                                                        <option value="FÊMEA">Fêmea</option>
-                                                    </select>
-                                                    <div class="invalid-feedback">
-                                                        Selecione o sexo do animal.
-                                                    </div>
-                                                </div>
-
-                                                <div class="col-md-4">
-                                                    <label for="pelagem" class="form-label required">
-                                                        <i class="fas fa-palette me-1"></i>Pelagem
-                                                    </label>
-                                                    <select class="form-select" id="pelagem" required>
-                                                        <option value="" selected disabled>Selecione...</option>
-                                                        <option value="PRETO">Preto</option>
-                                                        <option value="BRANCO">Branco</option>
-                                                        <option value="CARAMELO">Caramelo</option>
-                                                        <option value="MARROM">Marrom</option>
-                                                        <option value="MESCLADO">Mesclado</option>
-                                                        <option value="CINZA">Cinza</option>
-                                                        <option value="AMARELO">Amarelo</option>
-                                                        <option value="TRICOLOR">Tricolor</option>
-                                                        <option value="OUTRO">Outra</option>
-                                                    </select>
-                                                    <div class="invalid-feedback">
-                                                        Selecione a cor da pelagem.
-                                                    </div>
-                                                </div>
-
-                                                <div class="col-md-4">
-                                                    <label for="idade" class="form-label required">
-                                                        <i class="fas fa-birthday-cake me-1"></i>Idade
-                                                    </label>
-                                                    <select class="form-select" id="idade" required>
-                                                        <option value="" selected disabled>Selecione...</option>
-                                                        <option value="FILHOTE">Filhote (até 6 meses)</option>
-                                                        <option value="JOVEM">Jovem (6-12 meses)</option>
-                                                        <option value="ADULTO_JOVEM">Adulto Jovem (1-2 anos)</option>
-                                                        <option value="ADULTO">Adulto (3-6 anos)</option>
-                                                        <option value="SENIOR">Sênior (7+ anos)</option>
-                                                    </select>
-                                                    <div class="invalid-feedback">
-                                                        Selecione a faixa etária.
-                                                    </div>
-                                                </div>
-
-                                                <div class="col-md-4">
-                                                    <label for="porte" class="form-label required">
-                                                        <i class="fas fa-weight me-1"></i>Porte
-                                                    </label>
-                                                    <select class="form-select" id="porte" required>
-                                                        <option value="" selected disabled>Selecione...</option>
-                                                        <option value="PEQUENO">Pequeno (até 8kg)</option>
-                                                        <option value="MEDIO">Médio (8-15kg)</option>
-                                                        <option value="GRANDE">Grande (15-25kg)</option>
-                                                        <option value="GIGANTE">Gigante (25kg+)</option>
-                                                    </select>
-                                                    <div class="invalid-feedback">
-                                                        Selecione o porte do animal.
-                                                    </div>
-                                                </div>
-
-                                                <div class="col-md-4">
-                                                    <label for="raca" class="form-label required">
-                                                        <i class="fas fa-dna me-1"></i>Raça Definida
-                                                    </label>
-                                                    <select class="form-select" id="raca" required>
-                                                        <option value="" selected disabled>Selecione...</option>
-                                                        <option value="SIM">Sim</option>
-                                                        <option value="NÃO">Não</option>
-                                                        <option value="SRD">SRD</option>
-                                                    </select>
-                                                    <div class="invalid-feedback">
-                                                        Selecione uma opção para raça.
-                                                    </div>
-                                                </div>
-
-                                                <div class="col-md-4">
-                                                    <label for="castra" class="form-label required">
-                                                        <i class="fas fa-clinic-medical me-1"></i>Castrado
-                                                    </label>
-                                                    <select class="form-select" id="castra" required>
-                                                        <option value="" selected disabled>Selecione...</option>
-                                                        <option value="SIM">Sim</option>
-                                                        <option value="NÃO">Não</option>
-                                                    </select>
-                                                    <div class="invalid-feedback">
-                                                        Selecione se o animal é castrado.
-                                                    </div>
-                                                </div>
-
-                                                <div class="col-md-8">
-                                                    <label for="observacoes" class="form-label">
-                                                        <i class="fas fa-sticky-note me-1"></i>Observações
-                                                    </label>
-                                                    <textarea class="form-control" 
-                                                              id="observacoes" 
-                                                              rows="2"
-                                                              placeholder="Informações adicionais sobre o animal..."></textarea>
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                        <!-- Passo 2: Informações do Tutor -->
-                                        <div class="form-step" data-step="2">
-                                            <h3 class="step-title">
-                                                <i class="fas fa-user me-2"></i>Informações do Tutor
-                                            </h3>
-                                            
-                                            <div class="row g-3">
-                                                <div class="col-md-6">
-                                                    <label for="tutor" class="form-label required">
-                                                        <i class="fas fa-user-circle me-1"></i>Nome do Tutor
-                                                    </label>
-                                                    <input type="text" 
-                                                           class="form-control" 
-                                                           id="tutor" 
-                                                           required
-                                                           placeholder="Nome completo do responsável">
-                                                    <div class="invalid-feedback">
-                                                        Informe o nome completo do tutor.
-                                                    </div>
-                                                </div>
-
-                                                <div class="col-md-6">
-                                                    <label for="cpf" class="form-label required">
-                                                        <i class="fas fa-id-card me-1"></i>CPF
-                                                    </label>
-                                                    <input type="text" 
-                                                           class="form-control cpf-mask" 
-                                                           id="cpf" 
-                                                           required
-                                                           placeholder="000.000.000-00">
-                                                    <div class="invalid-feedback cpf-feedback">
-                                                        CPF inválido.
-                                                    </div>
-                                                </div>
-
-                                                <div class="col-md-4">
-                                                    <label for="rg" class="form-label required">
-                                                        <i class="fas fa-address-card me-1"></i>RG
-                                                    </label>
-                                                    <input type="text" 
-                                                           class="form-control rg-mask" 
-                                                           id="rg" 
-                                                           required
-                                                           placeholder="00.000.000-0">
-                                                    <div class="invalid-feedback">
-                                                        Informe o número do RG.
-                                                    </div>
-                                                </div>
-
-                                                <div class="col-md-4">
-                                                    <label for="celular" class="form-label required">
-                                                        <i class="fas fa-mobile-alt me-1"></i>Celular
-                                                    </label>
-                                                    <input type="text" 
-                                                           class="form-control phone-mask" 
-                                                           id="celular" 
-                                                           required
-                                                           placeholder="(00) 00000-0000">
-                                                    <div class="invalid-feedback">
-                                                        Informe um número de celular válido.
-                                                    </div>
-                                                </div>
-
-                                                <div class="col-md-4">
-                                                    <label for="telefone" class="form-label">
-                                                        <i class="fas fa-phone me-1"></i>Telefone Fixo
-                                                    </label>
-                                                    <input type="text" 
-                                                           class="form-control phone-mask" 
-                                                           id="telefone"
-                                                           placeholder="(00) 0000-0000">
-                                                </div>
-
-                                                <div class="col-md-6">
-                                                    <label for="email" class="form-label">
-                                                        <i class="fas fa-envelope me-1"></i>E-mail
-                                                    </label>
-                                                    <input type="email" 
-                                                           class="form-control email-validation" 
-                                                           id="email"
-                                                           placeholder="exemplo@email.com">
-                                                    <div class="invalid-feedback email-feedback">
-                                                        Informe um e-mail válido.
-                                                    </div>
-                                                </div>
-
-                                                <div class="col-md-6">
-                                                    <label for="profissao" class="form-label">
-                                                        <i class="fas fa-briefcase me-1"></i>Profissão
-                                                    </label>
-                                                    <input type="text" 
-                                                           class="form-control" 
-                                                           id="profissao"
-                                                           placeholder="Profissão do tutor">
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                        <!-- Passo 3: Endereço -->
-                                        <div class="form-step" data-step="3">
-                                            <h3 class="step-title">
-                                                <i class="fas fa-home me-2"></i>Endereço
-                                            </h3>
-                                            
-                                            <div class="row g-3">
-                                                <div class="col-md-4">
-                                                    <label for="cep" class="form-label required">
-                                                        <i class="fas fa-mail-bulk me-1"></i>CEP
-                                                    </label>
-                                                    <div class="input-group">
-                                                        <input type="text" 
-                                                               class="form-control cep-mask" 
-                                                               id="cep" 
-                                                               required
-                                                               placeholder="00000-000">
-                                                        <button class="btn btn-outline-primary" 
-                                                                type="button"
-                                                                onclick="ViaCEP.buscar()">
-                                                            <i class="fas fa-search"></i>
-                                                        </button>
-                                                    </div>
-                                                    <div class="invalid-feedback">
-                                                        Informe um CEP válido.
-                                                    </div>
-                                                </div>
-
-                                                <div class="col-md-8">
-                                                    <label for="logradouro" class="form-label required">
-                                                        <i class="fas fa-road me-1"></i>Logradouro
-                                                    </label>
-                                                    <input type="text" 
-                                                           class="form-control" 
-                                                           id="logradouro" 
-                                                           required
-                                                           placeholder="Rua, Avenida, Praça...">
-                                                    <div class="invalid-feedback">
-                                                        Informe o logradouro.
-                                                    </div>
-                                                </div>
-
-                                                <div class="col-md-2">
-                                                    <label for="numero" class="form-label required">
-                                                        <i class="fas fa-hashtag me-1"></i>Número
-                                                    </label>
-                                                    <input type="text" 
-                                                           class="form-control" 
-                                                           id="numero" 
-                                                           required
-                                                           placeholder="Nº">
-                                                    <div class="invalid-feedback">
-                                                        Informe o número.
-                                                    </div>
-                                                </div>
-
-                                                <div class="col-md-4">
-                                                    <label for="complemento" class="form-label">
-                                                        <i class="fas fa-building me-1"></i>Complemento
-                                                    </label>
-                                                    <input type="text" 
-                                                           class="form-control" 
-                                                           id="complemento"
-                                                           placeholder="Apto, Bloco, Casa...">
-                                                </div>
-
-                                                <div class="col-md-6">
-                                                    <label for="bairro" class="form-label required">
-                                                        <i class="fas fa-map-marker-alt me-1"></i>Bairro
-                                                    </label>
-                                                    <input type="text" 
-                                                           class="form-control" 
-                                                           id="bairro" 
-                                                           required
-                                                           placeholder="Nome do bairro">
-                                                    <div class="invalid-feedback">
-                                                        Informe o bairro.
-                                                    </div>
-                                                </div>
-
-                                                <div class="col-md-6">
-                                                    <label for="cidade" class="form-label required">
-                                                        <i class="fas fa-city me-1"></i>Cidade
-                                                    </label>
-                                                    <input type="text" 
-                                                           class="form-control" 
-                                                           id="cidade" 
-                                                           required
-                                                           placeholder="Nome da cidade">
-                                                    <div class="invalid-feedback">
-                                                        Informe a cidade.
-                                                    </div>
-                                                </div>
-
-                                                <div class="col-md-6">
-                                                    <label for="estado" class="form-label required">
-                                                        <i class="fas fa-flag me-1"></i>Estado
-                                                    </label>
-                                                    <select class="form-select" id="estado" required>
-                                                        <option value="" selected disabled>Selecione...</option>
-                                                        <option value="AC">Acre</option>
-                                                        <option value="AL">Alagoas</option>
-                                                        <option value="AP">Amapá</option>
-                                                        <option value="AM">Amazonas</option>
-                                                        <option value="BA">Bahia</option>
-                                                        <option value="CE">Ceará</option>
-                                                        <option value="DF">Distrito Federal</option>
-                                                        <option value="ES">Espírito Santo</option>
-                                                        <option value="GO">Goiás</option>
-                                                        <option value="MA">Maranhão</option>
-                                                        <option value="MT">Mato Grosso</option>
-                                                        <option value="MS">Mato Grosso do Sul</option>
-                                                        <option value="MG">Minas Gerais</option>
-                                                        <option value="PA">Pará</option>
-                                                        <option value="PB">Paraíba</option>
-                                                        <option value="PR">Paraná</option>
-                                                        <option value="PE">Pernambuco</option>
-                                                        <option value="PI">Piauí</option>
-                                                        <option value="RJ">Rio de Janeiro</option>
-                                                        <option value="RN">Rio Grande do Norte</option>
-                                                        <option value="RS">Rio Grande do Sul</option>
-                                                        <option value="RO">Rondônia</option>
-                                                        <option value="RR">Roraima</option>
-                                                        <option value="SC">Santa Catarina</option>
-                                                        <option value="SP">São Paulo</option>
-                                                        <option value="SE">Sergipe</option>
-                                                        <option value="TO">Tocantins</option>
-                                                    </select>
-                                                    <div class="invalid-feedback">
-                                                        Selecione o estado.
-                                                    </div>
-                                                </div>
-
-                                                <div class="col-md-12">
-                                                    <label for="referencia" class="form-label">
-                                                        <i class="fas fa-map-pin me-1"></i>Ponto de Referência
-                                                    </label>
-                                                    <input type="text" 
-                                                           class="form-control" 
-                                                           id="referencia"
-                                                           placeholder="Próximo a...">
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                        <!-- Passo 4: Revisão -->
-                                        <div class="form-step" data-step="4">
-                                            <h3 class="step-title">
-                                                <i class="fas fa-check-circle me-2"></i>Revisão do Cadastro
-                                            </h3>
-                                            
-                                            <div class="card review-card">
-                                                <div class="card-body">
-                                                    <div id="review-content"></div>
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                        <!-- Navegação entre passos -->
-                                        <div class="form-navigation mt-5">
-                                            <div class="d-flex justify-content-between">
-                                                <button type="button" 
-                                                        class="btn btn-secondary btn-prev"
-                                                        onclick="Formulario.voltarPasso()">
-                                                    <i class="fas fa-arrow-left me-2"></i>Voltar
-                                                </button>
-                                                
-                                                <button type="button" 
-                                                        class="btn btn-primary btn-next"
-                                                        onclick="Formulario.avancarPasso()">
-                                                    Próximo <i class="fas fa-arrow-right ms-2"></i>
-                                                </button>
-                                                
-                                                <button type="button" 
-                                                        class="btn btn-success btn-save"
-                                                        onclick="Cadastro.salvar()"
-                                                        style="display: none;">
-                                                    <i class="fas fa-save me-2"></i>Salvar Cadastro
-                                                </button>
-                                            </div>
-                                        </div>
-                                    </form>
-                                </div>
-                            </div>
+                <!-- 2. Endereço -->
+                <div class="form-section-title"><i class="fas fa-map-marker-alt"></i> 2. Endereço (CEP Lookup)</div>
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label>CEP<span class="required">*</span></label>
+                        <div class="d-flex gap-2">
+                            <input type="text" id="cep" class="cep-mask" placeholder="CEP" required style="flex: 1;">
+                            <button type="button" class="btn-secondary-custom"
+                                style="padding: 5px 15px; font-size: 0.8rem;" onclick="ViaCEP.buscar()">Buscar
+                                CEP</button>
                         </div>
                     </div>
-                </section>
-
-                <!-- Seção de Busca -->
-                <section id="buscar-section" class="content-section">
-                    <div class="section-header">
-                        <h1><i class="fas fa-search me-2"></i>Buscar Cadastros</h1>
-                        <p class="lead">Encontre cadastros por nome, microchip ou tutor</p>
+                    <div class="form-group span-2">
+                        <label>Endereço<span class="required">*</span></label>
+                        <input type="text" id="logradouro" placeholder="Endereço" required>
                     </div>
-                    <!-- Conteúdo da busca será carregado dinamicamente -->
-                </section>
-
-                <!-- Seção de Relatórios -->
-                <section id="relatorios-section" class="content-section">
-                    <div class="section-header">
-                        <h1><i class="fas fa-chart-bar me-2"></i>Relatórios</h1>
-                        <p class="lead">Estatísticas e relatórios do sistema</p>
+                    <div class="form-group">
+                        <label>Número<span class="required">*</span></label>
+                        <input type="text" id="numero" placeholder="Número" required>
                     </div>
-                    <!-- Conteúdo dos relatórios será carregado dinamicamente -->
-                </section>
-
-                <!-- Seção de Exportação -->
-                <section id="exportar-section" class="content-section">
-                    <div class="section-header">
-                        <h1><i class="fas fa-file-export me-2"></i>Exportar Dados</h1>
-                        <p class="lead">Exporte dados em diferentes formatos</p>
+                    <div class="form-group">
+                        <label>Bairro<span class="required">*</span></label>
+                        <input type="text" id="bairro" placeholder="Bairro" required>
                     </div>
-                    <!-- Conteúdo da exportação será carregado dinamicamente -->
-                </section>
-            </div>
+                    <div class="form-group">
+                        <label>Cidade<span class="required">*</span></label>
+                        <input type="text" id="cidade" placeholder="Cidade" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Estado<span class="required">*</span></label>
+                        <select id="estado" required>
+                            <option value="">Selecione...</option>
+                            <option value="MA">Maranhão</option>
+                            <option value="PA">Pará</option>
+                        </select>
+                    </div>
+                    <div class="form-group span-3">
+                        <label>Complemento</label>
+                        <input type="text" id="complemento" placeholder="Complemento">
+                    </div>
+                </div>
+
+                <!-- 3. Dados do Pet -->
+                <div class="form-section-title"><i class="fas fa-paw"></i> 3. Dados do Pet (Pet Details)</div>
+                <div class="form-grid">
+                    <div class="form-group span-2">
+                        <label>Nome do Pet<span class="required">*</span></label>
+                        <input type="text" id="animal" placeholder="Nome do Pet" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Espécie<span class="required">*</span></label>
+                        <select id="especie" required>
+                            <option value="">Cachorro / Gato / Outro</option>
+                            <option value="CÃO">Cão</option>
+                            <option value="GATO">Gato</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Raça<span class="required">*</span></label>
+                        <select id="raca" required>
+                            <option value="">Dropdown/Search</option>
+                            <option value="SRD">SRD</option>
+                            <option value="SIM">Raça Definida</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Sexo<span class="required">*</span></label>
+                        <select id="sexo" required>
+                            <option value="">Macho / Fêmea</option>
+                            <option value="MACHO">Macho</option>
+                            <option value="FÊMEA">Fêmea</option>
+                        </select>
+                    </div>
+                    <div class="form-group span-2">
+                        <label>Idade (Dropdown: Peso (Kg))<span class="required">*</span></label>
+                        <div class="d-flex gap-2">
+                            <select id="idade" required style="flex: 1;">
+                                <option value="">Anos, Meses</option>
+                                <option value="FILHOTE">Filhote</option>
+                                <option value="ADULTO">Adulto</option>
+                            </select>
+                            <select id="porte" required style="flex: 1;">
+                                <option value="">Porte</option>
+                                <option value="PEQUENO">Pequeno</option>
+                                <option value="MEDIO">Médio</option>
+                                <option value="GRANDE">Grande</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group span-3">
+                        <label>Observações de Saúde</label>
+                        <textarea id="observacoes" rows="4" placeholder="Observações de Saúde"></textarea>
+                    </div>
+                </div>
+
+                <!-- Botões de Ação -->
+                <div class="form-actions">
+                    <div class="d-flex gap-3">
+                        <button type="button" class="btn-primary-custom" onclick="Cadastro.salvar()">Cadastrar
+                            Pet</button>
+                        <button type="button" class="btn-secondary-custom" onclick="Historico.abrir()">
+                            <i class="fas fa-file-export"></i> Exportar CSV
+                        </button>
+                    </div>
+                    <button type="reset" class="btn-link">Limpar Formulário</button>
+                </div>
+            </form>
         </div>
     </main>
 
-    <!-- Footer -->
-    <footer class="app-footer">
+    <footer>
         <div class="container">
-            <div class="row">
-                <div class="col-md-6">
-                    <h6>CASTRA PET</h6>
-                    <p class="small">Sistema de Cadastro de Animais</p>
-                    <p class="small mb-0">
-                        <i class="fas fa-phone me-1"></i> +351 965 563 654 |
-                        <i class="fas fa-envelope me-1 ms-3"></i> mannowell@hotmail.com
-                    </p>
+            <div style="display: flex; align-items: center; justify-content: space-between;">
+                <div class="logo-container" style="transform: scale(0.8); flex-direction: row;">
+                    <i class="fas fa-paw" style="font-size: 2rem; color: var(--primary);"></i>
+                    <div class="logo-text">CastraPet</div>
                 </div>
-                <div class="col-md-6 text-md-end">
-                    <p class="small mb-1">
-                        <i class="fas fa-code me-1"></i> Desenvolvido com 
-                        <i class="fas fa-heart text-danger mx-1"></i> para animais
-                    </p>
-                    <p class="small mb-0">
-                        <i class="fas fa-sync-alt me-1"></i> 
-                        Última atualização: <span id="ultima-atualizacao">--:--</span>
-                    </p>
+                <nav class="nav-links" style="font-size: 0.8rem;">
+                    <a href="#">Início</a>
+                    <a href="#">Cadastro</a>
+                    <a href="#">Dúvidas</a>
+                    <a href="#">Contato</a>
+                </nav>
+                <div class="d-flex gap-3" style="font-size: 1.2rem; color: #777;">
+                    <i class="fab fa-facebook"></i>
+                    <i class="fab fa-instagram"></i>
+                    <i class="fab fa-youtube"></i>
+                </div>
+                <div class="d-flex gap-2" style="font-size: 1.5rem; color: var(--primary);">
+                    <i class="fas fa-clinic-medical"></i>
+                    <i class="fas fa-heart"></i>
                 </div>
             </div>
+            <p class="copyright">CastraPet © 2024 | Campanha de Castração | Parceria Prefeitura & ONGs</p>
         </div>
     </footer>
 
     <!-- Scripts -->
-    <!-- Bootstrap Bundle with Popper -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-    
-    <!-- Biblioteca de Máscaras -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.16/jquery.mask.min.js"></script>
-    
-    <!-- Biblioteca para Exportação -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
-    
-    <!-- Scripts do Sistema -->
     <script src="./js/config.js"></script>
     <script src="./js/utils.js"></script>
     <script src="./js/validacoes.js"></script>
     <script src="./js/sistema-operacional.js"></script>
     <script src="./js/sistema-ui-dados.js"></script>
+
+    <script>
+        $(document).ready(function () {
+            $('.cpf-mask').mask('000.000.000-00');
+            $('.cep-mask').mask('00000-000');
+            $('.phone-mask').mask('(00) 00000-0000');
+        });
+    </script>
 </body>
+
 </html>
