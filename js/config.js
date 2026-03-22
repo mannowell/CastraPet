@@ -72,7 +72,6 @@ const CONFIG = {
             CEP_NAO_ENCONTRADO: 'CEP não encontrado.',
             CPF_INVALIDO: 'CPF inválido.',
             EMAIL_INVALIDO: 'E-mail inválido.',
-            TELEFONE_INVALIDO: 'Telefone inválido.',
             SALVAR: 'Erro ao salvar os dados.',
             BUSCAR: 'Erro ao buscar informações.',
             CONEXAO: 'Erro de conexão. Verifique sua internet.'
