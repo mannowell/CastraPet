@@ -5,13 +5,11 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="description" content="Sistema de cadastro de animais Projeto - Castra Pet">
-    <title>CastraPet - Campanha de Castração Responsável</title>
+    <meta name="description" content="CastraPet - Campanha de Castração Responsável">
+    <title>CastraPet - Castração Gratuita para seu Pet</title>
 
     <!-- Fonts -->
-    <link
-        href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700;800&display=swap"
-        rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="./css/style.css">
 </head>
@@ -22,237 +20,266 @@
         <p class="mt-3">Aguarde um momento...</p>
     </div>
 
+    <!-- HEADER -->
     <header>
         <div class="container header-content">
-            <a href="#" class="logo-container">
-                <!-- Mantendo a lógica de marca mas com estilo premium -->
+            <a href="#" class="logo-container" onclick="Navigation.irPara('home')">
                 <div style="display: flex; align-items: center; gap: 10px;">
                     <i class="fas fa-paw" style="font-size: 2rem; color: var(--primary);"></i>
-                    <div class="logo-text">CastraPet <span>Campanha de Castração Responsável</span></div>
+                    <div class="logo-text">CastraPet <span>Campanha Responsável</span></div>
                 </div>
             </a>
             <nav class="nav-links">
-                <a href="#">Início</a>
-                <a href="#cadastro" style="color: var(--primary); font-weight: 800;">Cadastro</a>
-                <a href="#">Dúvidas</a>
-                <a href="#">Contato</a>
+                <a href="#" onclick="Navigation.irPara('home')">Início</a>
+                <a href="#" onclick="Navigation.irPara('cadastro')" class="nav-cadastro-link">Cadastro</a>
+                <a href="#" onclick="Navigation.irPara('duvidas')">Dúvidas</a>
+                <a href="#" onclick="Navigation.irPara('contato')">Contato</a>
             </nav>
         </div>
     </header>
 
-    <main class="main-wrapper">
-        <h1 class="page-title">Cadastro para Castração Gratuita</h1>
-        <span class="sub-title">Preencha os dados para inscrever seu pet na campanha.</span>
+    <main class="main-wrapper container">
+        
+        <!-- SECTION: HOME -->
+        <section id="section-home" class="app-section">
+            <div class="hero-card">
+                <div class="hero-content">
+                    <h1>Sua cidade mais unida pela causa animal.</h1>
+                    <p>Inscreva seu pet em nossa campanha de castração gratuita e ajude a controlar a superpopulação de forma responsável.</p>
+                    <div class="counter-box">
+                        <span class="counter-number" id="total-cadastros">0</span>
+                        <span class="counter-label">Animais já cadastrados</span>
+                    </div>
+                    <button class="btn-primary-custom" onclick="Navigation.irPara('cadastro')">
+                        Fazer meu Cadastro <i class="fas fa-arrow-right ms-2"></i>
+                    </button>
+                </div>
+                <div class="hero-image">
+                    <img src="./img/dog.png" alt="Dog" style="max-width: 100%; opacity: 0.8;">
+                </div>
+            </div>
+        </section>
 
-        <div class="form-card" id="cadastro">
-            <!-- Decorative Pets -->
-            <img src="https://www.transparentpng.com/download/cat/cat-silhouette-png-15.png"
-                class="pet-deco pet-top-right" style="opacity: 0.2;" alt="Cat deco">
-            <img src="https://www.transparentpng.com/download/dog/dog-silhouette-png-2.png"
-                class="pet-deco pet-bottom-left" style="opacity: 0.1;" alt="Dog deco">
+        <!-- SECTION: CADASTRO -->
+        <section id="section-cadastro" class="app-section" style="display: none;">
+            <div class="text-center mb-5">
+                <h1 class="page-title">Cadastro de Castração</h1>
+                <span class="sub-title">Siga os passos abaixo para completar a inscrição.</span>
+            </div>
 
-            <form id="cadastro-form" novalidate>
+            <!-- Progress Stepper -->
+            <div class="stepper-wrapper mb-5">
+                <div class="step active" data-step="1">
+                    <div class="step-circle">1</div>
+                    <div class="step-label">Pet</div>
+                </div>
+                <div class="step" data-step="2">
+                    <div class="step-circle">2</div>
+                    <div class="step-label">Tutor</div>
+                </div>
+                <div class="step" data-step="3">
+                    <div class="step-circle">3</div>
+                    <div class="step-label">Endereço</div>
+                </div>
+                <div class="step" data-step="4">
+                    <div class="step-circle">4</div>
+                    <div class="step-label">Revisão</div>
+                </div>
+            </div>
 
-                <!-- 1. Dados do Tutor -->
-                <div class="form-section-title"><i class="fas fa-user"></i> 1. Dados do Tutor (Owner Info)</div>
-                <div class="form-grid">
-                    <div class="form-group span-2">
-                        <label>Nome Completo<span class="required">*</span></label>
-                        <div class="input-with-icon">
-                            <input type="text" id="tutor" placeholder="Nome Completo" required>
-                            <i class="fas fa-check-circle" style="color: #4CAF50;"></i>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label>CPF<span class="required">*</span></label>
-                        <div class="input-with-icon">
-                            <input type="text" id="cpf" class="cpf-mask" placeholder="123-4556-788X" required>
-                            <i class="fas fa-check-circle" style="color: #4CAF50;"></i>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label>RG<span class="required">*</span></label>
-                        <div class="input-with-icon">
-                            <input type="text" id="rg" placeholder="RG" required>
-                            <i class="fas fa-check-circle" style="color: #4CAF50;"></i>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label>E-mail<span class="required">*</span></label>
-                        <div class="input-with-icon">
-                            <input type="email" id="email" placeholder="E-mail" required>
-                            <i class="fas fa-envelope"></i>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label>Telefone<span class="required">*</span></label>
-                        <div class="input-with-icon">
-                            <input type="text" id="telefone" class="phone-mask" placeholder="Telefone" required>
-                            <i class="fas fa-phone"></i>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label>Celular/WhatsApp<span class="required">*</span></label>
-                        <div class="input-with-icon">
-                            <input type="text" id="celular" class="phone-mask" placeholder="91 XXX47499" required>
-                            <i class="fas fa-phone"></i>
-                        </div>
-                    </div>
+            <div class="form-card">
+                <!-- Decorative Pets -->
+                <img src="./img/cat.png" class="pet-deco pet-top-right" style="opacity: 0.2;" alt="Cat deco">
+                <img src="./img/dog.png" class="pet-deco pet-bottom-left" style="opacity: 0.1;" alt="Dog deco">
+
+                <div class="section-header mb-4">
+                    <h1 id="step-title"><i class="fas fa-paw me-2"></i>Informações do Animal</h1>
                 </div>
 
-                <!-- 2. Endereço -->
-                <div class="form-section-title"><i class="fas fa-map-marker-alt"></i> 2. Endereço (CEP Lookup)</div>
-                <div class="form-grid">
-                    <div class="form-group">
-                        <label>CEP<span class="required">*</span></label>
-                        <div class="d-flex gap-2">
-                            <input type="text" id="cep" class="cep-mask" placeholder="CEP" required style="flex: 1;">
-                            <button type="button" class="btn-secondary-custom"
-                                style="padding: 5px 15px; font-size: 0.8rem;" onclick="ViaCEP.buscar()">Buscar
-                                CEP</button>
+                <form id="cadastro-form" novalidate>
+                    <!-- Passo 1: Dados do Pet -->
+                    <div class="form-step active" data-step="1">
+                        <div class="form-grid">
+                            <div class="form-group span-2">
+                                <label>Nome do Pet<span class="required">*</span></label>
+                                <input type="text" id="animal" placeholder="Nome do Pet" required>
+                            </div>
+                            <div class="form-group">
+                                <label>Espécie<span class="required">*</span></label>
+                                <select id="especie" required onchange="Formulario.atualizarRacas()">
+                                    <option value="">Selecione...</option>
+                                    <option value="CÃO">Cão</option>
+                                    <option value="GATO">Gato</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label>Raça<span class="required">*</span></label>
+                                <select id="raca" required disabled>
+                                    <option value="">Selecione a espécie primeiro...</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label>Sexo<span class="required">*</span></label>
+                                <select id="sexo" required>
+                                    <option value="">Selecione...</option>
+                                    <option value="MACHO">Macho</option>
+                                    <option value="FÊMEA">Fêmea</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label>Idade Aproximada<span class="required">*</span></label>
+                                <select id="idade" required>
+                                    <option value="">Selecione...</option>
+                                    <option value="FILHOTE">Filhote (até 6 meses)</option>
+                                    <option value="JOVEM">Jovem (6-12 meses)</option>
+                                    <option value="ADULTO">Adulto (1-7 anos)</option>
+                                    <option value="SENIOR">Sênior (7+ anos)</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label>Porte<span class="required">*</span></label>
+                                <select id="porte" required>
+                                    <option value="">Selecione...</option>
+                                    <option value="PEQUENO">Pequeno (até 10kg)</option>
+                                    <option value="MEDIO">Médio (10-20kg)</option>
+                                    <option value="GRANDE">Grande (+20kg)</option>
+                                </select>
+                            </div>
+                            <div class="form-group span-3">
+                                <label>Observações de Saúde</label>
+                                <textarea id="observacoes" rows="2" placeholder="Ex: Alergias ou condições especiais..."></textarea>
+                            </div>
                         </div>
                     </div>
-                    <div class="form-group span-2">
-                        <label>Endereço<span class="required">*</span></label>
-                        <input type="text" id="logradouro" placeholder="Endereço" required>
-                    </div>
-                    <div class="form-group">
-                        <label>Número<span class="required">*</span></label>
-                        <input type="text" id="numero" placeholder="Número" required>
-                    </div>
-                    <div class="form-group">
-                        <label>Bairro<span class="required">*</span></label>
-                        <input type="text" id="bairro" placeholder="Bairro" required>
-                    </div>
-                    <div class="form-group">
-                        <label>Cidade<span class="required">*</span></label>
-                        <input type="text" id="cidade" placeholder="Cidade" required>
-                    </div>
-                    <div class="form-group">
-                        <label>Estado<span class="required">*</span></label>
-                        <select id="estado" required>
-                            <option value="">Selecione...</option>
-                            <option value="MA">Maranhão</option>
-                            <option value="PA">Pará</option>
-                        </select>
-                    </div>
-                    <div class="form-group span-3">
-                        <label>Complemento</label>
-                        <input type="text" id="complemento" placeholder="Complemento">
-                    </div>
-                </div>
 
-                <!-- 3. Dados do Pet -->
-                <div class="form-section-title"><i class="fas fa-paw"></i> 3. Dados do Pet (Pet Details)</div>
-                <div class="form-grid">
-                    <div class="form-group span-2">
-                        <label>Nome do Pet<span class="required">*</span></label>
-                        <input type="text" id="animal" placeholder="Nome do Pet" required>
-                    </div>
-                    <div class="form-group">
-                        <label>Espécie<span class="required">*</span></label>
-                        <select id="especie" required>
-                            <option value="">Cachorro / Gato / Outro</option>
-                            <option value="CÃO">Cão</option>
-                            <option value="GATO">Gato</option>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label>Raça<span class="required">*</span></label>
-                        <select id="raca" required>
-                            <option value="">Dropdown/Search</option>
-                            <option value="SRD">SRD</option>
-                            <option value="SIM">Raça Definida</option>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label>Sexo<span class="required">*</span></label>
-                        <select id="sexo" required>
-                            <option value="">Macho / Fêmea</option>
-                            <option value="MACHO">Macho</option>
-                            <option value="FÊMEA">Fêmea</option>
-                        </select>
-                    </div>
-                    <div class="form-group span-2">
-                        <label>Idade (Dropdown: Peso (Kg))<span class="required">*</span></label>
-                        <div class="d-flex gap-2">
-                            <select id="idade" required style="flex: 1;">
-                                <option value="">Anos, Meses</option>
-                                <option value="FILHOTE">Filhote</option>
-                                <option value="ADULTO">Adulto</option>
-                            </select>
-                            <select id="porte" required style="flex: 1;">
-                                <option value="">Porte</option>
-                                <option value="PEQUENO">Pequeno</option>
-                                <option value="MEDIO">Médio</option>
-                                <option value="GRANDE">Grande</option>
-                            </select>
+                    <!-- Passo 2: Dados do Tutor -->
+                    <div class="form-step" data-step="2" style="display: none;">
+                        <div class="form-grid">
+                            <div class="form-group span-3">
+                                <label>Nome Completo do Tutor<span class="required">*</span></label>
+                                <input type="text" id="tutor" placeholder="Nome Completo" required>
+                            </div>
+                            <div class="form-group span-2">
+                                <label>CPF<span class="required">*</span></label>
+                                <input type="text" id="cpf" class="cpf-mask" placeholder="000.000.000-00" required>
+                            </div>
+                            <div class="form-group">
+                                <label>WhatsApp/Celular<span class="required">*</span></label>
+                                <input type="text" id="celular" class="phone-mask" placeholder="(00) 00000-0000" required>
+                            </div>
                         </div>
                     </div>
-                    <div class="form-group span-3">
-                        <label>Observações de Saúde</label>
-                        <textarea id="observacoes" rows="4" placeholder="Observações de Saúde"></textarea>
-                    </div>
-                </div>
 
-                <!-- Botões de Ação -->
-                <div class="form-actions">
-                    <div class="d-flex gap-3">
-                        <button type="button" class="btn-primary-custom" onclick="Cadastro.salvar()">Cadastrar
-                            Pet</button>
-                        <button type="button" class="btn-secondary-custom" onclick="Historico.abrir()">
-                            <i class="fas fa-file-export"></i> Exportar CSV
+                    <!-- Passo 3: Endereço -->
+                    <div class="form-step" data-step="3" style="display: none;">
+                        <div class="form-grid">
+                            <div class="form-group">
+                                <label>CEP<span class="required">*</span></label>
+                                <div class="d-flex gap-2">
+                                    <input type="text" id="cep" class="cep-mask" placeholder="00000-000" required style="flex: 1;">
+                                    <button type="button" class="btn-search-cep" onclick="ViaCEP.buscar()">
+                                        <i class="fas fa-search"></i>
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="form-group span-2">
+                                <label>Rua/Logradouro<span class="required">*</span></label>
+                                <input type="text" id="logradouro" placeholder="Nome da rua" required>
+                            </div>
+                            <div class="form-group">
+                                <label>Número<span class="required">*</span></label>
+                                <input type="text" id="numero" placeholder="Nº" required>
+                            </div>
+                            <div class="form-group">
+                                <label>Bairro<span class="required">*</span></label>
+                                <input type="text" id="bairro" placeholder="Bairro" required>
+                            </div>
+                            <div class="form-group">
+                                <label>Cidade/Estado<span class="required">*</span></label>
+                                <input type="text" id="cidade_estado" placeholder="Cidade / UF" required disabled>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Passo 4: Revisão -->
+                    <div class="form-step" data-step="4" style="display: none;">
+                        <div id="review-content" class="review-grid"></div>
+                        <div class="alert alert-info mt-4">
+                            <i class="fas fa-info-circle me-2"></i> Confirme seus dados.
+                        </div>
+                    </div>
+
+                    <!-- BOTÕES -->
+                    <div class="form-actions mt-5">
+                        <button type="button" class="btn-prev btn-secondary-custom" style="display: none;">
+                            <i class="fas fa-arrow-left me-2"></i>Voltar
+                        </button>
+                        <button type="button" class="btn-next btn-primary-custom ms-auto">
+                            Próximo <i class="fas fa-arrow-right ms-2"></i>
+                        </button>
+                        <button type="button" class="btn-save btn-primary-custom ms-auto" style="display: none;">
+                            <i class="fas fa-check-circle me-2"></i>Finalizar
                         </button>
                     </div>
-                    <button type="reset" class="btn-link">Limpar Formulário</button>
+                </form>
+            </div>
+        </section>
+
+        <!-- SECTION: DUVIDAS -->
+        <section id="section-duvidas" class="app-section" style="display: none;">
+            <div class="text-center mb-5">
+                <h1 class="page-title">Dúvidas Frequentes</h1>
+                <p>Confira as principais informações sobre a campanha.</p>
+            </div>
+            <div class="duvidas-container">
+                <div class="faq-item">
+                    <h5>Qual a idade mínima para castração?</h5>
+                    <p>Recomendamos a partir dos 6 meses, mas cada caso é avaliado pela equipe médica.</p>
                 </div>
-            </form>
-        </div>
+                <div class="faq-item">
+                    <h5>O animal precisa estar em jejum?</h5>
+                    <p>Sim, 12 horas de jejum hídrico e alimentar para a segurança da anestesia.</p>
+                </div>
+                <div class="faq-item">
+                    <h5>Tem custo?</h5>
+                    <p>Não, a nossa campanha é 100% gratuita para moradores cadastrados.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION: CONTATO -->
+        <section id="section-contato" class="app-section" style="display: none;">
+            <div class="text-center mb-5">
+                <h1 class="page-title">Fale Conosco</h1>
+                <p>Estamos aqui para ajudar.</p>
+            </div>
+            <div class="contact-card">
+                <div class="contact-info">
+                    <p><i class="fab fa-whatsapp me-2"></i> (11) 99999-9999</p>
+                    <p><i class="fas fa-envelope me-2"></i> contato@castrapet.com.br</p>
+                    <p><i class="fas fa-map-marker-alt me-2"></i> Centro de Controle de Zoonoses</p>
+                </div>
+            </div>
+        </section>
+
     </main>
 
     <footer>
-        <div class="container">
-            <div style="display: flex; align-items: center; justify-content: space-between;">
-                <div class="logo-container" style="transform: scale(0.8); flex-direction: row;">
-                    <i class="fas fa-paw" style="font-size: 2rem; color: var(--primary);"></i>
-                    <div class="logo-text">CastraPet</div>
-                </div>
-                <nav class="nav-links" style="font-size: 0.8rem;">
-                    <a href="#">Início</a>
-                    <a href="#">Cadastro</a>
-                    <a href="#">Dúvidas</a>
-                    <a href="#">Contato</a>
-                </nav>
-                <div class="d-flex gap-3" style="font-size: 1.2rem; color: #777;">
-                    <i class="fab fa-facebook"></i>
-                    <i class="fab fa-instagram"></i>
-                    <i class="fab fa-youtube"></i>
-                </div>
-                <div class="d-flex gap-2" style="font-size: 1.5rem; color: var(--primary);">
-                    <i class="fas fa-clinic-medical"></i>
-                    <i class="fas fa-heart"></i>
-                </div>
+        <div class="container footer-content">
+            <p>CastraPet © 2024 | Proteção Animal</p>
+            <div class="social-icons">
+                <i class="fab fa-instagram"></i>
+                <i class="fab fa-facebook"></i>
             </div>
-            <p class="copyright">CastraPet © 2024 | Campanha de Castração | Parceria Prefeitura & ONGs</p>
         </div>
     </footer>
 
-    <!-- Scripts -->
+    <!-- SCRIPTS -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.16/jquery.mask.min.js"></script>
-    <script src="./js/config.js"></script>
     <script src="./js/utils.js"></script>
     <script src="./js/validacoes.js"></script>
-    <script src="./js/sistema-operacional.js"></script>
     <script src="./js/sistema-ui-dados.js"></script>
-
-    <script>
-        $(document).ready(function () {
-            $('.cpf-mask').mask('000.000.000-00');
-            $('.cep-mask').mask('00000-000');
-            $('.phone-mask').mask('(00) 00000-0000');
-        });
-    </script>
+    <script src="./js/sistema-operacional.js"></script>
 </body>
-
 </html>
