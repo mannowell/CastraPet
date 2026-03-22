@@ -17,9 +17,6 @@ const Mascaras = {
         // Máscara para CPF
         this.aplicarMascaraCPF();
         
-        // Máscara para telefone
-        this.aplicarMascaraTelefone();
-        
         // Máscara para CEP
         this.aplicarMascaraCEP();
         
@@ -60,33 +57,6 @@ const Mascaras = {
                     input.classList.toggle('is-valid', valido);
                     input.classList.toggle('is-invalid', !valido);
                 }
-            });
-        });
-    },
-    
-    /**
-     * Aplica máscara de telefone ((00) 00000-0000)
-     */
-    aplicarMascaraTelefone: function() {
-        const telefoneInputs = document.querySelectorAll('.phone-mask, #celular, #telefone');
-        
-        telefoneInputs.forEach(input => {
-            input.addEventListener('input', function(e) {
-                let valor = e.target.value.replace(/\D/g, '');
-                
-                if (valor.length > 11) {
-                    valor = valor.substring(0, 11);
-                }
-                
-                if (valor.length === 11) {
-                    valor = valor.replace(/^(\d{2})(\d)/g, '($1) $2');
-                    valor = valor.replace(/(\d)(\d{4})$/, '$1-$2');
-                } else if (valor.length === 10) {
-                    valor = valor.replace(/^(\d{2})(\d)/g, '($1) $2');
-                    valor = valor.replace(/(\d)(\d{4})$/, '$1-$2');
-                }
-                
-                e.target.value = valor;
             });
         });
     },
